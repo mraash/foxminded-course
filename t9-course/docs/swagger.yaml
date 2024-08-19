@@ -1,0 +1,129 @@
+openapi: 3.0.3
+info:
+  title: Course API
+  description: |-
+    Course api doccumentation
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: localhost::5000/api/v1
+paths:
+  /students:
+    get:
+      tags:
+        - students
+      summary: Get all students
+      operationId: getStudents
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentList'
+
+    post:
+      tags:
+        - students
+      summary: Create new student
+      operationId: createStudent
+      parameters:
+        - name: first_name
+          in: query
+          description: Student first name
+          required: true
+          schema:
+            type: string
+        - name: last_name
+          in: query
+          description: Student last name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+
+  /students/{id}:
+    get:
+      tags:
+        - students
+      summary: Get specified stud
+      operationId: getStudent
+      parameters:
+        - name: id
+          in: path
+          description: Student id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+        '404':
+          description: Student not found
+          
+    delete:
+      tags:
+        - students
+      summary: Get specified stud
+      operationId: deleteStudent
+      parameters:
+        - name: id
+          in: path
+          description: Student id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+        '404':
+          description: Student not found
+
+  /groups:
+    get:
+      tags:
+        - groups
+      summary: Get all groups
+      operationId: getGroups
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+
+components:
+  schemas:
+    StudentList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Student'
+    Student:
+      type: object
+      properties:
+        id:
+          type: integer
+        first_name:
+          type: string
+        last_name:
+          type: string
+      xml:
+        name: order
+    Group:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      xml:
+        name: order

@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  db:
+    container_name: course_db
+    image: postgres:14.3-alpine
+    restart: always
+    volumes:
+      - ./docker/.storage/postgresql:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_DB=course
+    ports:
+      - 5432:5432
+
+  web:
+    container_name: course_web
+    restart: always
+    build:
+      context: .
+      dockerfile: docker/web/Dockerfile
+    volumes:
+      - ./:/var/www/html/
+      - ./docker/web/php/php.ini/:/usr/local/etc/php/conf.d/php.ini
+      - ./docker/web/apache/000-default.conf:/etc/apache2/sites-available/000-default.conf
+    ports:
+      - 5000:80
