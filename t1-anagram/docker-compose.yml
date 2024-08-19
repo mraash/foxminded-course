@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+
+  nginx:
+    image: nginx:latest
+    depends_on:
+      - app
+    volumes:
+      - ./:/var/www/html/
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    ports:
+      - 8081:80
+
+  app:
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+    volumes:
+      - ./:/var/www/html/
+      - ./docker/app/php.ini/:/usr/local/etc/php/conf.d/php.ini
