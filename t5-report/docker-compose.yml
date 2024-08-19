@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  db:
+    container_name: report_db
+    image: mysql:latest
+    volumes:
+      - ./docker/.volumes/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=monaco_racing
+      - MYSQL_ROOT_PASSWORD=123
+      - MYSQL_RANDOM_ROOT_PASSWORD=
+    ports:
+      - 3306:3306
+
+  phpmyadmin:
+    container_name: report_pma
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8001:80
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
+
+  web:
+    container_name: report_web
+    build:
+      context: .
+      dockerfile: docker/web/Dockerfile
+    volumes:
+      - ./:/var/www/html/
+      - ./docker/web/php/php.ini/:/usr/local/etc/php/conf.d/php.ini
+      - ./docker/web/apache/000-default.conf:/etc/apache2/sites-available/000-default.conf
+    ports:
+      - 5000:80
