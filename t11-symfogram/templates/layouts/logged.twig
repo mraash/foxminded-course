@@ -1,0 +1,16 @@
+{# Layout for authorized users with based role #}
+
+{% extends "layouts/skeleton.twig" %}
+
+{% block body %}
+    <nav style="margin-bottom: 10px">
+        <a href="{{ path('pages.users.index') }}">Users</a> |
+        <a href="{{ path('pages.users.single', {id: app.user.id}) }}">My Account</a> |
+        <a href="{{ path('pactions.logout') }}">Logout</a>
+    </nav>
+
+    {% include "includes/alerts.twig" %}
+
+    {% block content %}{% endblock %}
+
+{% endblock %}

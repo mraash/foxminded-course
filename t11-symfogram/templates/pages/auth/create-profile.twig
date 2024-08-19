@@ -1,0 +1,31 @@
+{% extends 'layouts/public.twig' %}
+
+{% block title %}Create profile{% endblock %}
+
+{% block content %}
+    <h2>Create profile</h2>
+    <form action="{{ path('actions.register.create-profile') }}" method="post" enctype="multipart/form-data">
+        <div>
+            First name:
+            <input name="first_name">
+        </div>
+        <div>
+            Last name:
+            <input name="last_name">
+        </div>
+        <div>
+            Biography:
+            <textarea name="bio"></textarea>
+        </div>
+        <div>
+            Avatar:
+            <input type="file" name="avatar">
+        </div>
+        <div>
+            <a href="{{ path('pactions.logout') }}">Logout</a>
+        </div>
+        <button type="submit" style="margin-top: 5px;">
+            Create
+        </button>
+    </form>
+{% endblock %}

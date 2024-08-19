@@ -1,0 +1,89 @@
+{% extends "layouts/logged.twig" %}
+
+{% block title %}Users{% endblock %}
+
+{% block content %}
+    <div style="display: flex">
+        <div
+            style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 50px;
+                height: 50px;
+                border: 1px solid #444;
+                border-radius: 50%;
+                overflow: hidden
+            "
+        >
+            {% if user.hasAvatar() %}
+                <image
+                    src="{{ asset(user.getAvatar().getUri()) }}"
+                    style="
+                        max-width: 100%;
+                        max-height: 100%;
+                    "
+                >
+            {% else %}
+                Empty
+            {% endif %}
+        </div>
+        <h2>
+            {{ user.getFirstName() }} {{ user.getLastName() }}
+        </h2>
+    </div>
+
+    {% if is_self %}
+        <div style="margin-bottom: 7px">
+            <a href="{{ path('pages.account.edit') }}">Edit profile</a> |
+            <a href="{{ path('pages.posts.create') }}">Create post</a>
+        </div>
+    {% endif %}
+
+    <div>
+        {% for post in user.getPosts() %}
+            <div>
+                <hr style="
+                    margin-left: 0;
+                    margin-top: 20px;
+                    margin-bottom: 20px;
+                    width: 600px;
+                ">
+                {% if post.hasTitle() %}
+                    <div>{{ post.getTitle() }}</div>
+                {% endif %}
+
+                <div style="
+                    display: flex;
+                    justify-content: space-between;
+                    flex-wrap: wrap;
+                    width: 405px;
+                ">
+                    {% for image in post.getImages() %}
+                        <div style="
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            margin-bottom: 5px;
+                            width: 200px;
+                            height: 200px;
+                            border: 1px solid #444;
+                            border-radius: 5px;
+                            overflow: hidden;
+                        ">
+                            <image
+                                src="{{ asset(image.getUri()) }}"
+                                style="
+                                    max-width: 100%;
+                                    max-height: 100%;
+                                "
+                            >
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            No posts here :(
+        {% endfor %}
+    </div>
+{% endblock %}
